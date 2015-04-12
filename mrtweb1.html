@@ -1,0 +1,110 @@
+<html>
+<head>
+<title>WebMRT1</title>
+<meta charset="utf-8">
+</head>
+<body onload="myCheck()">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javaScript">
+myButton = 0;            // [Start]/[Stop]のフラグ
+//myInterval="";
+function myCheck(){
+  if (myButton==0){      // Startボタンを押した
+    myStart=new Date();  // スタート時間を退避
+    myButton = 1;
+    document.myForm.myFormButton.value = "Stop!";
+    myInterval=setInterval("myDisp()",1);
+  }else{                 // Stopボタンを押した
+    myDisp();
+    myButton = 0;
+    document.myForm.myFormButton.value = "Start";
+    clearInterval( myInterval ); 
+    document.myForm.myFormButton.disabled = true;
+  }
+}
+
+function myDisp(){
+    myStop=new Date();  // 経過時間を退避
+    myTime = myStop.getTime() - myStart.getTime(); // 通算ミリ秒計算
+    myH = Math.floor(myTime/(60*60*1000));         // '時間'取得
+    myTime = myTime-(myH*60*60*1000);
+    myM = Math.floor(myTime/(60*1000));            // '分'取得
+    myTime = myTime-(myM*60*1000);
+    myS = (Math.floor(myTime/1000) - 5);                 // '秒'取得
+    myMS = myTime%1000;                            // 'ミリ秒'取得
+    if (myS >= 30){
+        document.myForm.myFormTime.value = "30.0";
+        document.myForm.myFormButton.value = "Start";
+        clearInterval( myInterval );
+        document.myForm.myFormButton.disabled = true;
+    }else{
+        document.myForm.myFormTime.value = myS+":"+myMS;
+    }
+}
+
+function radiostop(){
+    myDisp();
+    myButton = 0;
+    document.myForm.myFormButton.value = "Start";
+    clearInterval( myInterval ); 
+    document.myForm.answer[0].disabled = true;
+    document.myForm.answer[1].disabled = true;
+    document.myForm.answer[2].disabled = true;
+    document.myForm.myFormButton.disabled = true;
+}
+
+$(function(){
+   setTimeout(function(){
+       $("#mrtpic").show();
+   }, 5000);
+});
+    
+$(function(){
+   setTimeout(function(){
+       $("#timebox").show();
+   }, 5000);
+});
+    
+var img = new Array();
+    
+img[0] = new Image();
+img[0].src = "pic2/pic2.png";
+img[1] = new Image();
+img[1].src = "pic2/pic4.png";
+img[2] = new Image();
+img[2].src = "pic2/pic6.png";
+    
+var cnt = 0;
+    
+function changeImg(){
+    if(cnt == 2){
+        cnt = 0;
+    }else{
+        cnt++;
+    }
+    document.getElementById("mrtpic").src = img[cnt].src;
+}
+
+</script>
+
+<p><font size="6">1/24</font></p>
+
+<form name="myForm">
+	<img src="pic2/pic2.png" name="pic2" border="1" id="mrtpic" alt = "pic2" width = "400" height = "250" style="display:none">
+	<br><br>
+    <p><font size="5">答えは？</font></p>
+	<input type="radio" name = "answer" value="同像" onclick = "radiostop() ">同像
+    <input type = "radio" name = "answer" value="鏡像" onclick="radiostop()">鏡像
+    <input type="radio" name="answer" value="別立体" onclick="radiostop()">別立体
+	<br><br><br>
+	<input type="text" size="5" name="myFormTime" id="timebox" style="display:none">
+    
+	<input type="button" value="Start" name="myFormButton" onclick="myCheck()" style="display:none">
+    
+	<br><br><br>
+    <input type="button" class="button" value="次の問題へ→" onClick = "changeImg()">
+    <!-- 'location.href="mrtweb2.html"' -->
+</form>
+
+</body>
+</html>
