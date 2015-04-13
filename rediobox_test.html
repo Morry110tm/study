@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" http-equiv="content-type" content="text/javascript">
+    <title> rediobox test </title>
+    <script type="text/javascript">
+        function getredio(){
+            if(document.FORM.RADIO[0].checked == true){
+                document.FORM.text.value = document.getElementsByName("RADIO");
+            }else if(document.FORM.RADIO[1].checked == true){
+                document.FORM.text.value = document.FORM.RADIO[1].value;
+            }else(document.FORM.RADIO[2].checked == true){
+                document.FORM.text.value = document.FORM.RADIO[2].value;
+            }
+        }
+    </script>
+</head>
+<body>
+    <form name = "FORM">
+        <input type="text" name = "text" value = ""><br>
+        <input type="radio" name = "RADIO" value = "radioA" onclick="getredio()">一つ目<br>
+        <input type="radio" name = "RADIO" value="radioB" onclick="getredio()">二つ目<br>
+        <input type="radio" name = "RADIO" value="radioC" onclick="getredio()">三つ目
+    </form>
+</body>
+</html>
